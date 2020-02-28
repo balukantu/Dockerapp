@@ -14,18 +14,6 @@ spec:
     spec:
       containers:
       - name: webapi
-        image: 3mlocal.azurecr.io/webapi:latest
+        image: 3mlocal.azurecr.io/webapi:${tag-name}$
         ports:
         - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: webapi
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-  selector:
-    app: webapi
-
