@@ -1,29 +1,29 @@
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: webapi-deployment
+  name: azure-vote-back
 spec:
-  selector:
-    matchLabels:
-      app: webapi
-  replicas: 2 
+  replicas: 1
   template:
     metadata:
       labels:
-        app: webapi
+        app: azure-vote-back
     spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
       containers:
-      - name: webapi
-        image: 3mlocal.azurecr.io/webapi:latest
+      - name: 3mlocal.azurecr.io/webapi:latest
+        image: redis
         ports:
         - containerPort: 6379
+          name: redis
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapi
+  name: azure-vote-back
 spec:
   ports:
   - port: 6379
   selector:
-    app: webapi
+    app: azure-vote-back
